@@ -1,0 +1,57 @@
+version: '3.8'
+
+
+services:
+  database:
+    build:
+      context: ../
+      dockerfile: docker/postgres/Dockerfile
+    container_name: pgvector
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: vector_db
+    volumes:
+      - db_data:/var/lib/postgresql/data  # Persistent database storage
+      - ./schema.sql:/docker-entrypoint-initdb.d/1-schema.sql:ro  # Initialize schema
+      - ./data.sql:/docker-entrypoint-initdb.d/2-data.sql:ro      # Seed initial data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  ollama:
+    build:
+      context: ../
+      dockerfile: docker/ollama/Dockerfile
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-models:/root/.ollama/models  # Persist models across container restarts
+    networks:
+      - app-network
+    restart: always
+    entrypoint: ["/start-ollama.sh"]
+
+  app:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    container_name: springboot-rag
+    depends_on:
+      - database
+      - ollama
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  ollama-models:
+    driver: local
+  db_data:  # Explicitly declare the named volume

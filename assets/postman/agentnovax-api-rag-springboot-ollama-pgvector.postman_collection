@@ -1,0 +1,79 @@
+{
+	"info": {
+		"_postman_id": "d2cf2e07-a15f-4e62-aeba-cb8b43ceec0e",
+		"name": "AgentNovaX RAG API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39166996",
+		"_collection_link": "https://mat888-6619.postman.co/workspace/MAT-Workspace~9dcaa9e6-2d24-46a1-87eb-f6dcb637543d/collection/39166996-d2cf2e07-a15f-4e62-aeba-cb8b43ceec0e?action=share&source=collection_link&creator=39166996"
+	},
+	"item": [
+		{
+			"name": "RAG Index",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"content\": \"This is an example document about AI.\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/rag/index",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"rag",
+						"index"
+					]
+				},
+				"description": "Generated from cURL: curl -X POST http://localhost:8080/api/rag/index \\\r\n     -H \"Content-Type: application/json\" \\\r\n     -d '{\"content\": \"This is an example document about AI.\"}'\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "RAG Query",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/rag/query?query=Tell me about AI&topK=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"rag",
+						"query"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "Tell me about AI"
+						},
+						{
+							"key": "topK",
+							"value": "5"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl -X GET \"http://localhost:8080/api/rag/query?query=Tell me about AI&topK=5\"\r\n"
+			},
+			"response": []
+		}
+	]
+}
